@@ -53,6 +53,11 @@ const adminJsRouter = AdminJSExpress.buildRouter(adminJs);
 app.use(adminJs.options.rootPath, adminJsRouter);
 console.log(`AdminJS connected successfully at ${adminJs.options.rootPath}`);
 
+// Basic Route
+app.get('/', (req, res) => {
+  res.send('Hello, world!');
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
