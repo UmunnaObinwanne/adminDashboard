@@ -7,6 +7,7 @@ import AdminJSExpress from '@adminjs/express';
 import * as AdminJSMongoose from '@adminjs/mongoose';
 import PageResource from './resources/pageResources.js'; // Correct path
 import { componentLoader } from './components/components.js';
+import pageRoutes from './routes/pages.js';
 
 const app = express();
 
@@ -40,6 +41,12 @@ mongoose.connect(uri, {})
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use('/', pageRoutes);
+// Basic Route
+app.get('/', (req, res) => {
+  res.send('Hello, world!');
+});
+
 AdminJS.registerAdapter(AdminJSMongoose);
 const adminJs = new AdminJS({
     resources: [PageResource],
@@ -53,10 +60,7 @@ const adminJsRouter = AdminJSExpress.buildRouter(adminJs);
 app.use(adminJs.options.rootPath, adminJsRouter);
 console.log(`AdminJS connected successfully at ${adminJs.options.rootPath}`);
 
-// Basic Route
-app.get('/', (req, res) => {
-  res.send('Hello, world!');
-});
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
