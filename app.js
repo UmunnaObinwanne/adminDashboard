@@ -3,6 +3,12 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import session from 'express-session';
 import pageRoutes from './routes/pajes.js';
+import AdminJS from 'adminjs';
+import AdminJSExpress from '@adminjs/express';
+import * as AdminJSMongoose from '@adminjs/mongoose';
+import PageResource from './resources/pageResources.js';
+import { componentLoader } from './components/components.js';
+
 
 
 const app = express();
@@ -44,6 +50,19 @@ app.get('/', (req, res) => {
 });
 
 
+
+AdminJS.registerAdapter(AdminJSMongoose);
+const adminJs = new AdminJS({
+  resources: [PageResource],
+  componentLoader,
+  branding: {
+    logo: '/shopmart logo.jpg',
+  },
+  rootPath: '/admin',
+});
+const adminJsRouter = AdminJSExpress.buildRouter(adminJs);
+app.use(adminJs.options.rootPath, adminJsRouter);
+console.log(`AdminJS connected successfully at ${adminJs.options.rootPath}`);
 
 
 
