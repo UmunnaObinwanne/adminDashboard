@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import session from 'express-session';
 import pageRoutes from './routes/pajes.js';
-import { adminJs, adminJsRouter } from './adminjsSetup.js'; // Import AdminJS setup
+import { adminJs, adminJsRouter } from './adminsetup.js'; // Import AdminJS setup
 
 
 
