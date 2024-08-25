@@ -2,12 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import session from 'express-session';
-import AdminJS from 'adminjs';
-import AdminJSExpress from '@adminjs/express';
-import * as AdminJSMongoose from '@adminjs/mongoose';
-import PageResource from './resources/pageResources.js'; // Correct path
-import { componentLoader } from './components/components.js';
-import pageRoutes from './routes/pages.js';
+
 
 const app = express();
 
@@ -29,36 +24,19 @@ app.use(session({
   }
 }));
 
-// Database connection
-const dbPassword = process.env.DB_PASSWORD;
-const uri = `mongodb+srv://broadwaymarketingconsults:${dbPassword}@carmartuk.0chjo.mongodb.net/carmart?retryWrites=true&w=majority&appName=CarmartUK`;
 
-mongoose.connect(uri, {})
-  .then(() => console.log('Successfully connected to MongoDB'))
-  .catch((error) => console.error('Error connecting to MongoDB:', error));
 
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/', pageRoutes);
+
 // Basic Route
 app.get('/', (req, res) => {
   res.send('Hello, world!');
 });
 
-AdminJS.registerAdapter(AdminJSMongoose);
-const adminJs = new AdminJS({
-    resources: [PageResource],
-    componentLoader,
-  branding: {
-    logo: '/shopmart logo.jpg',
-  },
-  rootPath: '/admin',
-});
-const adminJsRouter = AdminJSExpress.buildRouter(adminJs);
-app.use(adminJs.options.rootPath, adminJsRouter);
-console.log(`AdminJS connected successfully at ${adminJs.options.rootPath}`);
+
 
 
 
