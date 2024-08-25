@@ -2,6 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import session from 'express-session';
+import pageRoutes from './routes/pajes.js';
 
 
 const app = express();
@@ -24,13 +25,19 @@ app.use(session({
   }
 }));
 
+// Database connection
+const dbPassword = process.env.DB_PASSWORD;
+const uri = `mongodb+srv://broadwaymarketingconsults:${dbPassword}@carmartuk.0chjo.mongodb.net/carmart?retryWrites=true&w=majority&appName=CarmartUK`;
 
+mongoose.connect(uri, {})
+  .then(() => console.log('Successfully connected to MongoDB'))
+  .catch((error) => console.error('Error connecting to MongoDB:', error));
 
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
+app.use('/', pageRoutes);
 // Basic Route
 app.get('/', (req, res) => {
   res.send('Hello, world!');
