@@ -2,7 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import session from 'express-session';
-import pageRoutes from './routes/pajes.js';
+import pageRoutes from './routes/pages.js';
 import { adminJs, adminJsRouter } from './adminsetup.js'; // Import AdminJS setup
 
 
@@ -45,13 +45,13 @@ app.get('/', (req, res) => {
   res.send('Hello, world!');
 });
 
-
+const PORT = process.env.PORT || 3000;
 
 // Use AdminJS router
 app.use(adminJs.options.rootPath, adminJsRouter);
-console.log(`AdminJS connected successfully at ${adminJs.options.rootPath}`);
+console.log(`AdminJS connected successfully at http://localhost:${PORT}${adminJs.options.rootPath}`);
 
-const PORT = process.env.PORT || 3000;
+
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
